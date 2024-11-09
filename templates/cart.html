@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+{% block body %}
+
+<div class="heading">
+    <h3>shopping cart</h3>
+    <p> <a href="home.php">home</a> / cart </p>
+ </div>
+ 
+ <section class="shopping-cart">
+ 
+    <h1 class="title">products added</h1>
+ 
+    <div class="box-container">
+      {% if carts %}
+       {% for cart in carts %}
+       <div class="box">
+          <a href="cart.php?delete=" class="fas fa-times" onclick="return confirm('delete this from cart?');"></a>
+          <img src="../static/uploaded_img/{{ cart[5] }}" alt="">
+          <div class="name">{{ cart[2] }}</div>
+          <div class="price">RS.{{ cart[3] }}/-</div>
+          <form action="{{ url_for('update') }}" method="post">
+             <input type="hidden" name="cart_id" value="{{ cart[0] }}">
+             <input type="number" min="1" name="cart_quantity" value="{{ cart[4] }}">
+             <input type="submit" name="update_cart" value="update" class="option-btn">
+          </form>
+          <div class="sub-total"> sub total : <span>RS.{{ cart[3] * cart[4] }}/-</span> </div>
+       </div>
+       {% endfor %}
+       {% else %}
+       <p class="empty">your cart is empty</p>
+      {% endif %}
+    </div>
+ 
+    <div style="margin-top: 2rem; text-align:center;">
+       <a href="cart.php?delete_all" class="delete-btn <?php echo ($grand_total > 1)?'':'disabled'; ?>" onclick="return confirm('delete all from cart?');">delete all</a>
+    </div>
+ 
+    <div class="cart-total">
+       <p>grand total : <span>RS.{{ total }}/-</span></p>
+       <div class="flex">
+          <a href="shop.php" class="option-btn">continue shopping</a>
+          <a href="checkout.php" class="btn <?php echo ($grand_total > 1)?'':'disabled'; ?>">proceed to checkout</a>
+       </div>
+    </div>
+ 
+ </section>
+ 
+ 
+ <!-- custom js file link  -->
+ <script src="../static/script.js"></script>
+
+ {% endblock body %}

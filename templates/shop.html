@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block body %}
+
+<div class="heading">
+    <h3>our shop</h3>
+    <p> <a href="home.php">home</a> / shop </p>
+ </div>
+ 
+ <section class="products">
+ 
+    <h1 class="title">latest products</h1>
+ 
+    <div class="box-container">
+ 
+      {% if books %}
+         {% for book in books %}
+            <form action="{{ url_for('add_cart') }}" method="post" class="box">
+            <img class="image" src="../static/uploaded_img/{{book[3]}}" alt="">
+            <div class="name">{{ book[1] }}</div>
+            <div class="price">RS.{{book[2]}}/-</div>
+            <input type="number" min="1" name="product_quantity" value="1" class="qty">
+            <input type="hidden" name="product_name" value="{{ book[1] }}">
+            <input type="hidden" name="product_price" value="{{ book[2] }}">
+            <input type="hidden" name="product_image" value="{{ book[3] }}">
+            <input type="submit" value="add to cart" name="add_to_cart" class="btn">
+            </form>
+         {% endfor %}
+      {% else %}
+          <p class="empty">no products added yet!</p>
+      {% endif %}
+
+    </div>
+ 
+ </section>
+ 
+ 
+ 
+ <!-- custom js file link  -->
+ <script src="../static/script.js"></script>
+ 
+ {% endblock body %}
